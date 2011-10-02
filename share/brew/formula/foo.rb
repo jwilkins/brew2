@@ -46,9 +46,14 @@ proper_directory "/lib/ruby/#{version}"
 strip :bin
 strip Dir["lib/*.dylib"]
 
-patch "https://qt.gitorious.org/qt/qt/commit/91be1263b42a0a91daf3f905661e356e31482fd3"
-patch "-p2d", "http://example.com/patch" # eg. lua requires the -d flag
-patch "https://foo.com/config.h.ed" # supports ed files
+# patches require checksums if they are downloaded
+# rationale: patches can do anything! The checksum is for security reasons
+# since the patch can be from anywhere, we can't trust people not to be
+# nefarious.
+# so we can cache patches in brew2: #{name}-#{version}-#{checksum}.patch
+patch "https://qt.gitorious.org/qt/qt/commit/91be12", 873434
+patch "-p2d", "http://example.com/patch", 173434 # eg. lua requires the -d flag
+patch "https://foo.com/config.h.ed", 473434 # supports ed files
 patch DATA
 
 variant '+dbus', "QtDBus module" do
