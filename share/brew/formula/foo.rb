@@ -22,12 +22,16 @@ end
 
 generate :pc_file # generates and auto-fills pkg-config file
 
-optional_dep :arse
-build_dep :pkgconfig
+# no more optional deps, if a dep is optional it should be defined as a
+# variant that is "on" by default
+
+depends_on :arse
+depends_on :pkgconfig, :build
+depends_on :foo, "+bar"
 
 # this dep requires the because field or it throws an exception
 # we use it for deps that we don't want people to use, they have to justify it
-dep :libiconv because "OS X iconv doesn't have a 64 bit symbol for iconv_open"
+depends_on :libiconv because "OS X iconv doesn't have a 64 bit symbol for iconv_open"
 
 # it is pretty common for other PMs eg. RubyGems to want to install their
 # stuff in a site packages directory like this. So we want to ensure that
