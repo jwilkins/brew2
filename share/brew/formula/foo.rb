@@ -8,6 +8,10 @@ home "http://blah.com"
 # parsing thingy. We will expand its capabilities so that common other
 # examples work. If your versions don't parse then you'll need to make your
 # own version comparator function.
+# NOTE so that files in the cache can be figured out back to formula
+# versions may not contain the '-' character, or we should redo how cached
+# files are stored. ie. maybe directories, though it's neat seeing them all
+# with a single `ls`
 
 # also valid
 source :apache_mirror, "foo", "HASHHASHHASH"
