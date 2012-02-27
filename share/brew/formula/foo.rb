@@ -33,6 +33,11 @@ depends_on :arse
 depends_on :pkgconfig, :build
 depends_on :foo, "+bar"
 
+# if dependents of this formula require ENV settings, add them here
+dependent_ENV do
+  ENV['FOO'] = "bar"
+end
+
 # this dep requires the because field or it throws an exception
 # we use it for deps that we don't want people to use, they have to justify it
 depends_on :libiconv because "OS X iconv doesn't have a 64 bit symbol for iconv_open"
