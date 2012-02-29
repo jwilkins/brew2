@@ -31,11 +31,11 @@ generate :pc_file # generates and auto-fills pkg-config file
 
 depends_on :arse
 depends_on :pkgconfig, :build
-depends_on :foo, "+bar"
+depends_on :foo if variant "+bar"
 
 # if dependents of this formula require ENV settings, add them here
 dependent_ENV do
-  ENV['FOO'] = "bar"
+  ENV['FOO_FLAGS'] = "#{HOMEBREW_PREFIX}/bar"
 end
 
 # this dep requires the because field or it throws an exception
