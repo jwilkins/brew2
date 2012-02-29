@@ -7,7 +7,7 @@ Feel free to fork and suggest improvements.
 
 Requirements
 ============
-* A GCC compatible compiler
+* A standards compliant c-compiler
 * BSD or GNU curl, tar, unzip
 * Ruby 1.8+
 * The following base libraries:
