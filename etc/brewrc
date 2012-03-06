@@ -1,0 +1,6 @@
+# use your own compiler, this cascades to CXX and LD
+CC: /opt/gcc/bin/gcc-4.6
+
+# set default args for various commands
+brew: --verbose
+brew-cleanup: -s
