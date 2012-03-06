@@ -1,10 +1,8 @@
 class Help < Homebrew::Command
-  requires_arg :formula
-  can_be_empty
-
-  flags {
-    "[p]lonk" => "Does the finkyfinky"
-    h: "DINKSDFKSJDKS"
+  usage {
+    "[p]lonk" => "Does the fatinky-tinky"
+    h: "Calls: sudo rm -rf"
+    formula: required
   }
   
   def run args
