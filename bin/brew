@@ -1,0 +1,33 @@
+#!/usr/bin/ruby
+
+HOMEBREW_BREW_FILE = ENV['HOMEBREW_BREW_FILE'] = File.expand_path(__FILE__)
+HOMEBREW_LIBRARY_PATH = File.clean_path("#{HOMEBREW_BREW_FILE}/../../lib/brew")
+$:.unshift(HOMEBREW_LIBRARY_PATH)
+require 'homebrew'
+
+case ARGV.first when '-h', '--help', '--usage', '-?', 'help', nil
+  require 'cmd/help'
+  puts Homebrew.help_s
+  exit ARGV.first ? 0 : 1
+when '--version', '-v'
+  puts HOMEBREW_VERSION
+  exit 0
+end
+
+
+case HOMEBREW_PREFIX.to_s when '/', '/usr'
+  # it may work, but I only see pain this route and don't want to support it
+  abort "Cowardly refusing to continue at this prefix: #{HOMEBREW_PREFIX}"
+end
+if MACOS_VERSION < 10.6
+  abort <<-EOABORT.undent
+    Homebrew requires Leopard or higher. For Tiger support, see:
+    http://github.com/sceaga/homebrew/tree/tiger
+  EOABORT
+end
+
+
+# Many Pathname operations use getwd when they shouldn't, and then throw
+# odd exceptions. Reduce our support burden by showing a user-friendly error.
+# TODO figure out which commands operate on CWD, the rest just cd to HPREFIX before hand
+Dir.getwd rescue abort "The current working directory doesn't exist, cannot proceed."

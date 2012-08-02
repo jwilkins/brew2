@@ -4,7 +4,10 @@ source "https://github.com/blah/tarball/1.2.3", "d3472204baa6865e98a0fa5d30c2ec0
 bottle :sf, "fbc31b43e4e843f1784e43031d83a8f8"
 home "http://blah.com"
 
-# NOTE it's mandatory for versions to parsable by Ruby's string-version
+# bottles can be outside of the official sourceforge root, but then the user
+# has to confirm they are okay to download said bottle
+
+# NOTE it's mandatory for versions to be parsable by Ruby's string-version
 # parsing thingy. We will expand its capabilities so that common other
 # examples work. If your versions don't parse then you'll need to make your
 # own version comparator function.
@@ -47,6 +50,14 @@ depends_on :libiconv because "OS X iconv doesn't have a 64 bit symbol for iconv_
 # the symlinking starts from #{prefix}/lib/ruby and not below that.
 proper_directory "/lib/ruby/#{version}"
 
+
+conflicts_with :bar because "Both provide bin/flubber"
+
+# if the version doesn't change, but an important fix occurs, you can force a
+# rebuild by setting this. NOTE this means we need to store the SHA that was built
+# in the JSON receipt. NEEDS_MORE_THOUGHT
+requires_rebuild_after :ab453e
+
 # skip_clean no longer exists, but you can ask for specific stuff to be stripped if you like
 strip :bin
 strip Dir["lib/*.dylib"]
@@ -66,6 +77,8 @@ variant '+dbus', "QtDBus module" do
   caveats "Displayed after install"
 end
 
+# TODO consider dropping explanation field, the variant itself should be
+# self-explanatory or the variant is badly named.
 variant '+q3support', "deprecated Qt3Support module." do
   config << "-qt3support"
 else
