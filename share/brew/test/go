@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+require 'simplecov'
+SimpleCov.start do
+  root "#{__FILE__}/../../../.."
+  command_name 'test:units'
+  add_filter "share/brew/test"
+
+  def self.coverage_path
+    d = File.join(root, "var/log/brew/simplecov")
+    FileUtils.mkdir_p d
+    d
+  end
+end
+
+Dir["test_*.rb"].each do |fn|
+  require_relative fn
+end

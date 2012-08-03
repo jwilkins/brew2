@@ -1,11 +1,8 @@
-class Help < Homebrew::Command
-  usage {
-    "[p]lonk" => "Does the fatinky-tinky"
-    h: "Calls: sudo rm -rf"
-    formula: required
-  }
-  
-  def run args
-    
+class HomebrewHelp < Homebrew::Command  
+  def run
+    puts self
+  end
+  def to_s
+    "TODO"
   end
 end
