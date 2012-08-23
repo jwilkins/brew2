@@ -3,6 +3,6 @@ class HomebrewPrefix < Homebrew::Command
     puts self
   end
   def to_s
-    Homebrew.prefix
+    Homebrew.PREFIX
   end
 end

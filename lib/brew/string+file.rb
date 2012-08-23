@@ -42,7 +42,7 @@ class String
   def kegpath
     path = self.realpath
     until path.root?
-      return path if path.parent.parent == Homebrew.cellar
+      return path if path.parent.parent == Homebrew.CELLAR
       path = path.parent.realpath # "realpath" prevents root? failing
     end
     raise ArgumentError, "#{path} is not inside a keg"

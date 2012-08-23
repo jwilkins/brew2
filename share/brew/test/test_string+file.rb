@@ -20,9 +20,9 @@ class StringTest < MiniTest::Unit::TestCase
   end
 
   def test_kegpath
-    keg = "#{Homebrew.cellar}/foo/0.9"
+    keg = "#{Homebrew.CELLAR}/foo/0.9"
     assert_equal "#{keg}/bin/foo".kegpath, keg
-    assert_raises(Errno::ENOENT) { "#{Homebrew.cellar}/arse/0.8".kegpath }
+    assert_raises(Errno::ENOENT) { "#{Homebrew.CELLAR}/arse/0.8".kegpath }
     assert_raises(ArgumentError) { __FILE__.kegpath }
   end
 

@@ -1,59 +1,26 @@
 HOMEBREW_VERSION = "1.9" # constant because RUBY_VERSION
 
+raise "Homebrew requires Ruby >= 1.8.6" if RUBY_VERSION < "1.8.6"
+
+
 module Homebrew
-  
+
   ArgumentError = Class.new(ArgumentError)
-  
+
   extend self
-  
-  # The prefix where kegs are symlinked
-  def prefix
-    HOMEBREW_BREW_FILE.dirname.parent
-  end
 
-  def cache
-    @cache ||= if ENV['HOMEBREW_CACHE']
-      ENV['HOMEBREW_CACHE']
-    else
-      # we do this for historic reasons, however the cache *should* be the same
-      # directory whichever user is used and whatever instance of brew is executed
-      home_cache = "~/Library/Caches/Homebrew".expand_path
-      if home_cache.directory? and home_cache.writable?
-        home_cache
-      else
-        root_cache = "/Library/Caches/Homebrew"
-        class << root_cache
-          alias :oldmkpath :mkpath
-          def mkpath
-            unless exist?
-              oldmkpath
-              chmod 0777
-            end
-          end
-        end
-        root_cache
-      end
-    end
-  end
-
-  # The prefix where kegs are installed
-  def cellar
-    @cellar ||= begin
-      postfix = "etc/brew/cellar"
-      cellar = "#{prefix}/#{postfix}"
-      if cellar.directory?
-        cellar
-      else
-        "#{repo}/#{postfix}"
-      end
-    end
-  end
-
-  def active
-    "#{Homebrew.prefix}/etc/brew/active"
-  end
+  # These constants can be overridden be in brewrc, or via ENV, eg:
+  #     Homebrew.CACHE = "/var/cache/brew"
+  #     export HOMEBREW_CACHE="/var/cache/brew"
+  # NOTE overriding PREFIX may be dumb, but whatever
+  # TODO make the above promise true!
+  PREFIX = __FILE__.dirname.parent.parent.cleanpath
+  CACHE = "/Library/Caches/Homebrew"
+  CELLAR = "#{PREFIX}/var/cellar"
 
   class Command
+    # TODO resolve aliases if the formula_args function is called
+
     def initialize *args
       @args = args
     end
@@ -75,7 +42,7 @@ module Homebrew
       raise "No such command: #{cmd}"
     end
   end
-  
+
   module OS
     def self.check_sanity
       case RUBY_PLATFORM

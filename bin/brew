@@ -1,7 +1,6 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env ruby -W0
 
-HOMEBREW_BREW_FILE = ENV['HOMEBREW_BREW_FILE'] = File.expand_path(__FILE__)
-require "#{HOMEBREW_BREW_FILE}/../../lib/brew/env"
+require "#{File.expand_path(__FILE__)}/../../lib/brew/env"
 
 case ARGV.first when '-h', '--help', '--usage', '-?', 'help', nil
   require 'brew/cmd/brew-help'
@@ -12,7 +11,7 @@ when '--version', '-v'
   exit 0
 end
 
-case Homebrew.prefix when '/', '/usr'
+case Homebrew.PREFIX when '/', '/usr'
   abort "Cowardly refusing to continue at this prefix: #{Homebrew.prefix}"
 end
 

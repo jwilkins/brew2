@@ -36,6 +36,11 @@ depends_on :arse
 depends_on :pkgconfig, :build
 depends_on :foo if variant "+bar"
 
+# won't install by default, but will recommend itself… somehow
+# rationale SVN is faster with newer zlib, and this isn't a variant as such
+# because if it is installed it should be used.
+depends_on "homebrew/dupes/zlib", :recommended
+
 # if dependents of this formula require ENV settings, add them here
 dependent_ENV do
   ENV['FOO_FLAGS'] = "#{HOMEBREW_PREFIX}/bar"
@@ -97,6 +102,7 @@ end
 
 install do
   ENV :x11, :O4, :j1
+  ENV.toolchain = "homebrew/versions/gcc34"
 
   # deprecate inreplace
   # things should always use patch as it is more robust in the face of changes
@@ -105,6 +111,12 @@ install do
   inreplace 'configure' do |content|
     I_AM_USING_INREPLACE_BECAUSE_I_AM_LAZY
     content.gsub! '${PACKAGE_NAME}-${PACKAGE_VERSION}', '${PACKAGE_NAME}'
+  end
+
+  config << "--with-zlib=#{Homebrew.PREFIX}/opt/zlib"
+
+  if Homebrew.installed? 'openssl'
+    config << "--with-openssl=#{Homebrew.PREFIX}/opt/openssl"
   end
 
   system "configure", *config
