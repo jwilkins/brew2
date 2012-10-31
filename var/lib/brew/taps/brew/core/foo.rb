@@ -29,6 +29,14 @@ end
 
 generate :pc_file # generates and auto-fills pkg-config file
 
+# plists symlink to /usr/local/Library/LaunchAgents for convenience so all
+# your plists go in the same place. Note it's still a symlink to
+# keg/Library/LaunchAgents in the keg, so everything still works as expected.
+generate :plist
+
+# * Jars symlink to sensible location
+# * .apps symlink to /usr/local/Applications or maybe even /Applications
+
 # no more optional deps, if a dep is optional it should be defined as a
 # variant that is "on" by default
 
@@ -54,6 +62,7 @@ depends_on :libiconv because "OS X iconv doesn't have a 64 bit symbol for iconv_
 # stuff in a site packages directory like this. So we want to ensure that
 # the symlinking starts from #{prefix}/lib/ruby and not below that.
 proper_directory "/lib/ruby/#{version}"
+
 
 
 conflicts_with :bar because "Both provide bin/flubber"
@@ -153,6 +162,11 @@ caveats "You can call these functions multiple times and the strings append"
 test do
   system "identify", "/Library/Application Support/Apple/iChat Icons/Flags/Argentina.gif"
 end
+
+howto <<-EOS.undent
+  This section is mandatory. Here you describe how to use the formula. We use
+  a markup like this: <command>foo</command> and actually test that these
+  example commands work when the formula is updated on our CI server.
 
 
 # note, we're dropping the clean step, so no skip_clean stuff
