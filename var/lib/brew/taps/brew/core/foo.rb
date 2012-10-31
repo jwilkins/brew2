@@ -167,6 +167,8 @@ howto <<-EOS.undent
   This section is mandatory. Here you describe how to use the formula. We use
   a markup like this: <command>foo</command> and actually test that these
   example commands work when the formula is updated on our CI server.
+  Also there is a mandatory <morehelp>man foo</morehelp> section that we also
+  test works.
 
 
 # note, we're dropping the clean step, so no skip_clean stuff
