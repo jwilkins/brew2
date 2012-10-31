@@ -95,6 +95,9 @@ Stuff that must be done before even considering 2.0
 * Link Frameworks in
 * Can adopt command format of other popular package managers, eg. apt. Maybe this would turn out stupid, but worth a play.
 
+* Build into opt and then move old versions into an archive-pen. Switching is
+  literally moving the directory and re-symlinking. Simplifies everything.
+
 Brew2 Taps
 ==========
 * taps end with .hbtap or .brewtap so they can easily by googled/github-searche
